@@ -16,6 +16,14 @@ app.get('/about', (req, res) => {
   res.render('about');
 });
 
+app.get('/manufacturer', (req, res) => {
+  res.render('manufacturer');
+});
+
+app.get('/consumer', (req, res) => {
+  res.render('consumer');
+});
+
 app.listen(port, () => {
   console.log(`Server running: http://localhost:${port}`);
 });

@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 20px;
+  display: flex; 
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  border-bottom: 1px solid #C0C0C0;
+}
+
+li {
+  padding-right: 40px;
+}
+.nav-link.active {
+  font-weight: bold;
+}
+
+.metamask img {
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.metamask img:hover {
+  transform: scale(0.8);
+  filter: grayscale(80%);
+}
+
+
+
+.footer {
+  border-top: 1px solid #C0C0C0;
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+}
