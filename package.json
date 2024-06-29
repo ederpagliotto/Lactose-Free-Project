@@ -12,8 +12,14 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "ejs": "^3.1.9",
+    "ejs": "^3.1.10",
     "express": "^4.19.2",
-    "web3": "^4.7.0"
+    "ipfs-http-client": "^60.0.1",
+    "web3": "^4.10.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "hardhat": "^2.22.5",
+    "mocha": "^10.5.2"
   }
 }
