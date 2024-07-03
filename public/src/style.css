@@ -1,18 +1,29 @@
+/* Reset some default styles */
+body, h2, p, input, button, textarea {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 20px;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #f8f9fa;
 }
 
 header {
   border-bottom: 1px solid #C0C0C0;
+  padding-bottom: 10px;
 }
 
 li {
   padding-right: 40px;
 }
+
 .nav-link.active {
   font-weight: bold;
 }
@@ -21,16 +32,79 @@ li {
   cursor: pointer;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
+
 .metamask img:hover {
   transform: scale(0.8);
   filter: grayscale(80%);
 }
 
-
-
-.footer {
+footer {
   border-top: 1px solid #C0C0C0;
-  margin-top: 80px;
+  margin-top: auto;
   display: flex;
   justify-content: center;
+  padding: 10px 0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+input, button, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+input:focus, textarea:focus {
+  border-color: #80bdff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#productDetails {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+}
+
+#productDetails h2 {
+  margin-bottom: 15px;
+  color: #333333;
+}
+
+#productDetails p {
+  margin: 5px 0;
+  color: #666666;
 }

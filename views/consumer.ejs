@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lactose-Free Tracking System</title>
+  <title>Lactose-Free Tracking System - Consumer</title>
   <link rel="stylesheet" href="/src/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
@@ -39,6 +39,21 @@
     <div><span id="walletAddress"></span></div>
   </header>
 
+  <main>
+    <form onsubmit="verifyProduct(); return false;">
+      <input type="number" id="productId" placeholder="Product ID" required>
+      <button type="submit">Verify Product</button>
+    </form>
+    <div id="productDetails">
+      <h2>Product Details</h2>
+      <p id="productName"></p>
+      <p id="manufacturerName"></p>
+      <p id="productDetailsText"></p>
+      <p id="productVerified"></p>
+      <div id="fileContainer"></div>
+    </div>
+  </main>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 
   <footer class="footer">
@@ -46,7 +61,6 @@
       <p>&copy; 2024 - Eder Pagliotto</p>
     </div>
   </footer>
-
 </body>
 
 </html>
