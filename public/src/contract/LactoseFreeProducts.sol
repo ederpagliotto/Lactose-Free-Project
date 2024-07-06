@@ -7,6 +7,7 @@ contract LactoseFreeProducts {
         string name;
         string manufacturer;
         string details;
+        string[] documentHashes;
         bool isVerified;
     }
 
@@ -17,10 +18,18 @@ contract LactoseFreeProducts {
         uint256 _id,
         string memory _name,
         string memory _manufacturer,
-        string memory _details
+        string memory _details,
+        string[] memory _documentHashes
     ) public {
         productCount++;
-        products[_id] = Product(_id, _name, _manufacturer, _details, false);
+        products[_id] = Product(
+            _id,
+            _name,
+            _manufacturer,
+            _details,
+            _documentHashes,
+            false
+        );
     }
 
     function verifyProduct(uint256 _productId) public {
@@ -33,7 +42,14 @@ contract LactoseFreeProducts {
     )
         public
         view
-        returns (uint256, string memory, string memory, string memory, bool)
+        returns (
+            uint256,
+            string memory,
+            string memory,
+            string memory,
+            string[] memory,
+            bool
+        )
     {
         Product storage product = products[_productId];
         return (
@@ -41,6 +57,7 @@ contract LactoseFreeProducts {
             product.name,
             product.manufacturer,
             product.details,
+            product.documentHashes,
             product.isVerified
         );
     }
