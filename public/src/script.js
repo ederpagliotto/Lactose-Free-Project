@@ -1,5 +1,5 @@
 const web3 = new Web3(Web3.givenProvider || 'http://localhost:8545');
-const contractAddress = '0x9BDC4ef2dc8e442CEE144553686AaC3f5ae69614';
+const contractAddress = '0xd35c645f266844bd03658b47a4c7c7193ec3ae43';
 const contractABI = [
   {
     inputs: [
@@ -22,6 +22,11 @@ const contractABI = [
         internalType: 'string',
         name: '_details',
         type: 'string',
+      },
+      {
+        internalType: 'string[]',
+        name: '_documentHashes',
+        type: 'string[]',
       },
     ],
     name: 'registerProduct',
@@ -71,6 +76,11 @@ const contractABI = [
         internalType: 'string',
         name: '',
         type: 'string',
+      },
+      {
+        internalType: 'string[]',
+        name: '',
+        type: 'string[]',
       },
       {
         internalType: 'bool',
@@ -156,17 +166,53 @@ async function connectMetamask() {
   }
 }
 
+async function uploadToIPFS(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const metadata = JSON.stringify({
+    name: file.name,
+  });
+  formData.append('pinataMetadata', metadata);
+
+  const options = JSON.stringify({
+    cidVersion: 0,
+  });
+  formData.append('pinataOptions', options);
+
+  const res = await axios.post(
+    'https://api.pinata.cloud/pinning/pinFileToIPFS',
+    formData,
+    {
+      maxBodyLength: 'Infinity', // Deixe isso do jeito que está
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+        Authorization: `Bearer ${''}`, // my pinata jwt
+      },
+    },
+  );
+
+  return res.data.IpfsHash;
+}
+
 async function registerProduct() {
   const productId = document.getElementById('productId').value;
   const name = document.getElementById('productName').value;
   const manufacturer = document.getElementById('manufacturerName').value;
   const details = document.getElementById('productDetails').value;
+  const files = document.getElementById('productFiles').files;
+
+  const documentHashes = [];
+  for (let i = 0; i < files.length; i++) {
+    const hash = await uploadToIPFS(files[i]);
+    documentHashes.push(hash);
+  }
 
   try {
     const account = await connectMetamask();
     if (account) {
       await contract.methods
-        .registerProduct(productId, name, manufacturer, details)
+        .registerProduct(productId, name, manufacturer, details, documentHashes)
         .send({ from: account });
       alert('Product registered successfully!');
     }
@@ -189,8 +235,18 @@ async function verifyProduct() {
       'productDetailsText',
     ).innerText = `Details: ${product[3]}`;
     document.getElementById('productVerified').innerText = `Verified: ${
-      product[4] ? 'Yes' : 'No'
+      product[5] ? 'Yes' : 'No'
     }`;
+
+    const fileContainer = document.getElementById('fileContainer');
+    fileContainer.innerHTML = '';
+    product[4].forEach((hash) => {
+      const fileLink = document.createElement('a');
+      fileLink.href = `https://gateway.pinata.cloud/ipfs/${hash}`;
+      fileLink.target = '_blank';
+      fileLink.innerText = `View File: ${hash}`;
+      fileContainer.appendChild(fileLink);
+    });
 
     alert('Product retrieved successfully!');
   } catch (error) {
