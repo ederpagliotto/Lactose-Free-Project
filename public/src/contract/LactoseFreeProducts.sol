@@ -21,6 +21,8 @@ contract LactoseFreeProducts {
         string memory _details,
         string[] memory _documentHashes
     ) public {
+        require(products[_id].id == 0, "Product ID already exists"); // Verificação do ID
+
         productCount++;
         products[_id] = Product(
             _id,
