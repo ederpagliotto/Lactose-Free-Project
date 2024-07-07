@@ -244,13 +244,24 @@ async function verifyProduct() {
 
     const fileContainer = document.getElementById('fileContainer');
     fileContainer.innerHTML = '';
-    product[4].forEach((hash) => {
-      const fileLink = document.createElement('a');
-      fileLink.href = `https://gateway.pinata.cloud/ipfs/${hash}`;
-      fileLink.target = '_blank';
-      fileLink.innerText = `View File: ${hash}`;
-      fileContainer.appendChild(fileLink);
-    });
+
+    // Verifica se existem hashes no array
+    if (product[4].length > 0) {
+      // Cria uma tag <p> com o texto "Additional Documents: "
+      const paragraph = document.createElement('p');
+      paragraph.innerText = 'Additional Documents: ';
+      fileContainer.appendChild(paragraph);
+
+      // Adiciona os links depois da tag <p>
+      product[4].forEach((hash, index) => {
+        const fileLink = document.createElement('a');
+        fileLink.href = `https://gateway.pinata.cloud/ipfs/${hash}`;
+        fileLink.target = '_blank';
+        fileLink.innerText = `Document ${index + 1}`;
+        fileContainer.appendChild(fileLink);
+        fileContainer.appendChild(document.createElement('br')); // Adiciona uma quebra de linha após cada link
+      });
+    }
 
     alert('Product retrieved successfully!');
   } catch (error) {
