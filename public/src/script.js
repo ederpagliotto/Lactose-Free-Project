@@ -1,5 +1,5 @@
 const web3 = new Web3(Web3.givenProvider || 'http://localhost:8545');
-const contractAddress = '0x9a5a9fa6bda2d613d5e216487199b35a7047d54c';
+const contractAddress = '0xbf8d99947e4a5b8d2ec4d65fae3099983964c2b6';
 const contractABI = [
   {
     inputs: [
@@ -55,7 +55,51 @@ const contractABI = [
         type: 'uint256',
       },
     ],
-    name: 'getProduct',
+    name: 'getProductById',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+      {
+        internalType: 'string[]',
+        name: '',
+        type: 'string[]',
+      },
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_name',
+        type: 'string',
+      },
+    ],
+    name: 'getProductByName',
     outputs: [
       {
         internalType: 'uint256',
@@ -184,7 +228,7 @@ async function uploadToIPFS(file) {
     'https://api.pinata.cloud/pinning/pinFileToIPFS',
     formData,
     {
-      maxBodyLength: 'Infinity', // Deixe isso do jeito que está
+      maxBodyLength: 'Infinity',
       headers: {
         'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
         Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4ODJiMWU4Ni04YTcyLTRkODAtYTBiZi05NzQxM2FmODVlN2MiLCJlbWFpbCI6ImVkZXJwYWdsaW90dG9AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjdhYTk4MWE5YTI0NzUzY2JmMDJiIiwic2NvcGVkS2V5U2VjcmV0IjoiYWViZDdkOWQ3OTFjMzk0YjNkM2NiODVhNDQ0OGU3NDIwYmEyNDZiYWYwMTNhMjFmMWEyMjNhZjM0ZDYwNDc5YiIsImV4cCI6MTc1MTgwODU4OH0.rzu84iqpuL2aiZcqiwVjTMoFWKaMFmjitldjiATA2JE'}`, // substitua pelo seu JWT da Pinata
@@ -228,10 +272,22 @@ async function registerProduct() {
 
 async function verifyProduct() {
   const productId = document.getElementById('productId').value;
+  const productName = document.getElementById('productName').value;
 
   try {
-    const product = await contract.methods.getProduct(productId).call();
-    document.getElementById('productName').innerText = `Name: ${product[1]}`;
+    let product;
+    if (productId) {
+      product = await contract.methods.getProductById(productId).call();
+    } else if (productName) {
+      product = await contract.methods.getProductByName(productName).call();
+    } else {
+      alert('Please enter a Product ID or Product Name.');
+      return;
+    }
+
+    document.getElementById(
+      'productNameText',
+    ).innerText = `Name: ${product[1]}`;
     document.getElementById(
       'manufacturerName',
     ).innerText = `Manufacturer: ${product[2]}`;
@@ -245,21 +301,18 @@ async function verifyProduct() {
     const fileContainer = document.getElementById('fileContainer');
     fileContainer.innerHTML = '';
 
-    // Verifica se existem hashes no array
     if (product[4].length > 0) {
-      // Cria uma tag <p> com o texto "Additional Documents: "
       const paragraph = document.createElement('p');
       paragraph.innerText = 'Additional Documents: ';
       fileContainer.appendChild(paragraph);
 
-      // Adiciona os links depois da tag <p>
       product[4].forEach((hash, index) => {
         const fileLink = document.createElement('a');
         fileLink.href = `https://gateway.pinata.cloud/ipfs/${hash}`;
         fileLink.target = '_blank';
         fileLink.innerText = `Document ${index + 1}`;
         fileContainer.appendChild(fileLink);
-        fileContainer.appendChild(document.createElement('br')); // Adiciona uma quebra de linha após cada link
+        fileContainer.appendChild(document.createElement('br'));
       });
     }
 
