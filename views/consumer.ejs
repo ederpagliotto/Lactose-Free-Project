@@ -41,12 +41,13 @@
   </header>
   <main>
     <form onsubmit="verifyProduct(); return false;">
-      <input type="number" id="productId" placeholder="Product ID" required>
+      <input type="number" id="productId" placeholder="Product ID">
+      <input type="text" id="productName" placeholder="Product Name">
       <button type="submit">Verify Product</button>
     </form>
     <div id="productDetails">
       <h3>Product Details:</h3>
-      <p id="productName"></p>
+      <p id="productNameText"></p>
       <p id="manufacturerName"></p>
       <p id="productDetailsText"></p>
       <p id="productVerified"></p>
