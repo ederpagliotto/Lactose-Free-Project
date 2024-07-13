@@ -41,9 +41,11 @@
   </header>
   <main>
     <form onsubmit="verifyProduct(); return false;">
+      <h2>Retrieve Product</h2>
       <input type="number" id="productId" placeholder="Product ID">
       <input type="text" id="productName" placeholder="Product Name">
       <button type="submit">Verify Product</button>
+      <button type="button" onclick="confirmVerification()">Verify</button>
     </form>
     <div id="productDetails">
       <h3>Product Details:</h3>
