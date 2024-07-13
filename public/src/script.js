@@ -1,5 +1,5 @@
 const web3 = new Web3(Web3.givenProvider || 'http://localhost:8545');
-const contractAddress = '0xbf8d99947e4a5b8d2ec4d65fae3099983964c2b6';
+const contractAddress = '0xcd8670735738135175670db95baeaa99f2859e30';
 const contractABI = [
   {
     inputs: [
@@ -228,7 +228,7 @@ async function uploadToIPFS(file) {
     'https://api.pinata.cloud/pinning/pinFileToIPFS',
     formData,
     {
-      maxBodyLength: 'Infinity',
+      maxBodyLength: 'Infinity', // Deixe isso do jeito que está
       headers: {
         'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
         Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4ODJiMWU4Ni04YTcyLTRkODAtYTBiZi05NzQxM2FmODVlN2MiLCJlbWFpbCI6ImVkZXJwYWdsaW90dG9AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjdhYTk4MWE5YTI0NzUzY2JmMDJiIiwic2NvcGVkS2V5U2VjcmV0IjoiYWViZDdkOWQ3OTFjMzk0YjNkM2NiODVhNDQ0OGU3NDIwYmEyNDZiYWYwMTNhMjFmMWEyMjNhZjM0ZDYwNDc5YiIsImV4cCI6MTc1MTgwODU4OH0.rzu84iqpuL2aiZcqiwVjTMoFWKaMFmjitldjiATA2JE'}`, // substitua pelo seu JWT da Pinata
@@ -255,6 +255,11 @@ async function registerProduct() {
   try {
     const account = await connectMetamask();
     if (account) {
+      const product = await contract.methods.getProductById(productId).call();
+      if (product[1] !== '') {
+        alert('Product ID already exists. Please use a different ID.');
+        return;
+      }
       await contract.methods
         .registerProduct(productId, name, manufacturer, details, documentHashes)
         .send({ from: account });
@@ -262,11 +267,7 @@ async function registerProduct() {
     }
   } catch (error) {
     console.error(error);
-    if (error.message.includes('Product ID already exists')) {
-      alert('Product ID already exists. Please use a different ID.');
-    } else {
-      alert('There was an error registering the product.');
-    }
+    alert('There was an error registering the product.');
   }
 }
 
@@ -276,49 +277,114 @@ async function verifyProduct() {
 
   try {
     let product;
+    let productExists = false;
     if (productId) {
       product = await contract.methods.getProductById(productId).call();
+      productExists = product[1] !== ''; // Verifica se o nome do produto não está vazio
     } else if (productName) {
       product = await contract.methods.getProductByName(productName).call();
+      productExists = product[1] !== ''; // Verifica se o nome do produto não está vazio
     } else {
       alert('Please enter a Product ID or Product Name.');
       return;
     }
 
-    document.getElementById(
-      'productNameText',
-    ).innerText = `Name: ${product[1]}`;
-    document.getElementById(
-      'manufacturerName',
-    ).innerText = `Manufacturer: ${product[2]}`;
-    document.getElementById(
-      'productDetailsText',
-    ).innerText = `Details: ${product[3]}`;
-    document.getElementById('productVerified').innerText = `Verified: ${
-      product[5] ? 'Yes' : 'No'
-    }`;
+    if (productExists) {
+      document.getElementById(
+        'productNameText',
+      ).innerText = `Name: ${product[1]}`;
+      document.getElementById(
+        'manufacturerName',
+      ).innerText = `Manufacturer: ${product[2]}`;
+      document.getElementById(
+        'productDetailsText',
+      ).innerText = `Details: ${product[3]}`;
+      document.getElementById('productVerified').innerText = `Verified: ${
+        product[5] ? 'Yes' : 'No'
+      }`;
 
-    const fileContainer = document.getElementById('fileContainer');
-    fileContainer.innerHTML = '';
+      const fileContainer = document.getElementById('fileContainer');
+      fileContainer.innerHTML = '';
 
-    if (product[4].length > 0) {
-      const paragraph = document.createElement('p');
-      paragraph.innerText = 'Additional Documents: ';
-      fileContainer.appendChild(paragraph);
+      if (product[4].length > 0) {
+        const paragraph = document.createElement('p');
+        paragraph.innerText = 'Additional Documents: ';
+        fileContainer.appendChild(paragraph);
 
-      product[4].forEach((hash, index) => {
-        const fileLink = document.createElement('a');
-        fileLink.href = `https://gateway.pinata.cloud/ipfs/${hash}`;
-        fileLink.target = '_blank';
-        fileLink.innerText = `Document ${index + 1}`;
-        fileContainer.appendChild(fileLink);
-        fileContainer.appendChild(document.createElement('br'));
-      });
+        product[4].forEach((hash, index) => {
+          const fileLink = document.createElement('a');
+          fileLink.href = `https://gateway.pinata.cloud/ipfs/${hash}`;
+          fileLink.target = '_blank';
+          fileLink.innerText = `Document ${index + 1}`;
+          fileContainer.appendChild(fileLink);
+          fileContainer.appendChild(document.createElement('br'));
+        });
+      }
+
+      alert('Product retrieved successfully!');
+    } else {
+      document.getElementById('productNameText').innerText = '';
+      document.getElementById('manufacturerName').innerText = '';
+      document.getElementById('productDetailsText').innerText = '';
+      document.getElementById('productVerified').innerText = '';
+      document.getElementById('fileContainer').innerHTML = '';
+
+      alert('Product not found.');
     }
-
-    alert('Product retrieved successfully!');
   } catch (error) {
     console.error(error);
     alert('There was an error retrieving the product.');
+  }
+}
+
+async function confirmVerification() {
+  const productId = document.getElementById('productId').value;
+  const productName = document.getElementById('productName').value;
+
+  if (!productId && !productName) {
+    alert('Please enter a Product ID or Product Name.');
+    return;
+  }
+
+  try {
+    const account = await connectMetamask();
+    if (account) {
+      let product;
+      let productExists = false;
+      if (productId) {
+        product = await contract.methods.getProductById(productId).call();
+        productExists = product[1] !== '';
+      } else if (productName) {
+        product = await contract.methods.getProductByName(productName).call();
+        productExists = product[1] !== '';
+      }
+
+      if (productExists) {
+        if (product[5]) {
+          // Check if the product is already verified
+          alert(
+            'Product is already verified. Cannot change verification status.',
+          );
+          return;
+        }
+
+        if (productId) {
+          await contract.methods
+            .verifyProduct(productId)
+            .send({ from: account });
+        } else if (productName) {
+          await contract.methods
+            .verifyProduct(product[0])
+            .send({ from: account });
+        }
+        alert('Product verified successfully!');
+        verifyProduct(); // Update the product details display
+      } else {
+        alert('Product not found. Cannot verify an unregistered product.');
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    alert('There was an error verifying the product.');
   }
 }
