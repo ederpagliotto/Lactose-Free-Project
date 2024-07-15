@@ -197,9 +197,12 @@ async function connectMetamask() {
         method: 'eth_requestAccounts',
       });
       const account = accounts[0];
+      const compactAddress = `${account.substring(0, 6)}...${account.substring(
+        account.length - 5,
+      )}`;
       document.getElementById(
         'walletAddress',
-      ).innerText = `Connected: ${account}`;
+      ).innerHTML = `Wallet Address: <strong>${compactAddress}</strong>`;
       return account;
     } catch (error) {
       console.error('User denied account access', error);
@@ -290,25 +293,31 @@ async function verifyProduct() {
     }
 
     if (productExists) {
+      document.getElementById('detailsTitle').innerText = `Product Details`;
+
       document.getElementById(
         'productNameText',
-      ).innerText = `Name: ${product[1]}`;
+      ).innerHTML = `<strong>Name:</strong> ${product[1]}`;
       document.getElementById(
         'manufacturerName',
-      ).innerText = `Manufacturer: ${product[2]}`;
+      ).innerHTML = `<strong>Manufacturer:</strong> ${product[2]}`;
       document.getElementById(
         'productDetailsText',
-      ).innerText = `Details: ${product[3]}`;
-      document.getElementById('productVerified').innerText = `Verified: ${
-        product[5] ? 'Yes' : 'No'
-      }`;
+      ).innerHTML = `<strong>Details:</strong> ${product[3]}`;
+
+      const verifiedText = product[5]
+        ? '<strong style="color: green;">Yes</strong>'
+        : '<strong style="color: red;">No</strong>';
+      document.getElementById(
+        'productVerified',
+      ).innerHTML = `<strong>Verified:</strong> ${verifiedText}`;
 
       const fileContainer = document.getElementById('fileContainer');
       fileContainer.innerHTML = '';
 
       if (product[4].length > 0) {
         const paragraph = document.createElement('p');
-        paragraph.innerText = 'Additional Documents: ';
+        paragraph.innerHTML = '<strong>Additional Documents:</strong> ';
         fileContainer.appendChild(paragraph);
 
         product[4].forEach((hash, index) => {
@@ -323,6 +332,7 @@ async function verifyProduct() {
 
       alert('Product retrieved successfully!');
     } else {
+      document.getElementById('detailsTitle').innerText = '';
       document.getElementById('productNameText').innerText = '';
       document.getElementById('manufacturerName').innerText = '';
       document.getElementById('productDetailsText').innerText = '';

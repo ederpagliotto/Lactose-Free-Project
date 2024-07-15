@@ -34,7 +34,7 @@ li {
 
 .metamask img:hover {
   transform: scale(0.8);
-  filter: grayscale(80%);
+  filter: brightness(80%);
 }
 
 main {
@@ -71,7 +71,7 @@ form h2:after {
   height: 4px;
   width: 50px;
   border-radius: 2px;
-  background-color: #d32643;
+  background-color: rgba(50, 124, 35, 0.8);
 }
 
 form input {
@@ -87,23 +87,35 @@ input, button, textarea {
   padding: 0.5rem 1rem;
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 4px;
-  background-color: rgba(230, 230, 230, 0.6);
+  background-color: rgba(230, 230, 230, 0.2);
   font-size: 1.1rem;
   transition: 0.3s;
 }
 
 input:focus, textarea:focus {
-  border-color: rgba(30, 85, 250, 0.47);
+  border-color: rgba(71, 141, 58, 0.8);
   outline: none;
   background-color: #fff;
 }
 
-input:hover, textarea:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+input:hover {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+textarea:hover::placeholder { 
+  color: #C0C0C0;
+}
+
+#productDetails {
+  margin-top: 5px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 button {
-  background-color: #d32643;
+  background-color: rgba(50, 124, 35, 0.8);
   color: #fff;
   border: none;
   cursor: pointer;
@@ -111,10 +123,10 @@ button {
 }
 
 button:hover {
-  background-color: #e76b80;
+  background-color: rgba(97, 213, 74, 0.8);
 }
 
-#productDetails {
+#productRetrieved {
   margin-top: 20px;
   padding: 20px;
   border-radius: 8px;
@@ -122,16 +134,17 @@ button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 100%;
+  text-align: center;
 }
 
-#productDetails h3 {
+#productRetrieved h3 {
   margin-bottom: 15px;
-  color: #333333;
+  color: #333;
 }
 
-#productDetails p {
+#productRetrieved p {
   margin: 5px 0;
-  color: #666666;
+  color: #666;
 }
 
 @media screen and (max-width: 880px) {
