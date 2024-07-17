@@ -24,14 +24,14 @@ li {
 }
 
 .container-fluid {
-  position: relative; /* Adicione esta linha */
+  position: relative;
 }
 
 .address {
-  position: absolute; /* Adicione esta linha */
-  right: 0; /* Adicione esta linha */
-  top: 50%; /* Adicione esta linha */
-  transform: translateY(-50%); /* Adicione esta linha */
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .nav-link.active {
@@ -67,7 +67,6 @@ main {
 
 .blockchain-img {
   max-width: 20vh;
-
 }
 
 form {
@@ -139,6 +138,11 @@ textarea:hover::placeholder {
   width: 100%;
 }
 
+.product-details-text {
+  white-space: pre-wrap;
+}
+
+
 button {
   background-color: rgba(50, 124, 35, 0.8);
   color: #fff;
@@ -173,11 +177,34 @@ button:hover {
   color: black;
 }
 
-.document-link{
+.document-link {
   color: black;
 }
 
 @media screen and (max-width: 880px) {
+  .main-text .row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-text .col-sm-6 {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .main-text .card-body {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .main-text .card-body img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
   form {
     max-width: 100%;
     padding: 20px;
