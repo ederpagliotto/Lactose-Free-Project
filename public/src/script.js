@@ -189,7 +189,7 @@ const contractABI = [
   },
 ];
 const contract = new web3.eth.Contract(contractABI, contractAddress);
-
+// Connecting to metamask
 async function connectMetamask() {
   if (window.ethereum) {
     try {
@@ -205,14 +205,16 @@ async function connectMetamask() {
       ).innerHTML = `<strong>Wallet Address: </strong>${compactAddress}`;
       return account;
     } catch (error) {
-      console.error('User denied account access', error);
+      console.error('Denied account access', error);
       alert('Please connect to MetaMask.');
     }
   } else {
-    alert('MetaMask is not installed. Please install MetaMask and try again.');
+    alert(
+      'MetaMask is not installed. Please install MetaMask on browser and try again.',
+    );
   }
 }
-
+// Uploading file to IPFS using Pinata
 async function uploadToIPFS(file) {
   const formData = new FormData();
   formData.append('file', file);
@@ -231,17 +233,17 @@ async function uploadToIPFS(file) {
     'https://api.pinata.cloud/pinning/pinFileToIPFS',
     formData,
     {
-      maxBodyLength: 'Infinity', // Deixe isso do jeito que está
+      maxBodyLength: 'Infinity',
       headers: {
         'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4ODJiMWU4Ni04YTcyLTRkODAtYTBiZi05NzQxM2FmODVlN2MiLCJlbWFpbCI6ImVkZXJwYWdsaW90dG9AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjdhYTk4MWE5YTI0NzUzY2JmMDJiIiwic2NvcGVkS2V5U2VjcmV0IjoiYWViZDdkOWQ3OTFjMzk0YjNkM2NiODVhNDQ0OGU3NDIwYmEyNDZiYWYwMTNhMjFmMWEyMjNhZjM0ZDYwNDc5YiIsImV4cCI6MTc1MTgwODU4OH0.rzu84iqpuL2aiZcqiwVjTMoFWKaMFmjitldjiATA2JE'}`, // substitua pelo seu JWT da Pinata
+        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4ODJiMWU4Ni04YTcyLTRkODAtYTBiZi05NzQxM2FmODVlN2MiLCJlbWFpbCI6ImVkZXJwYWdsaW90dG9AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjdhYTk4MWE5YTI0NzUzY2JmMDJiIiwic2NvcGVkS2V5U2VjcmV0IjoiYWViZDdkOWQ3OTFjMzk0YjNkM2NiODVhNDQ0OGU3NDIwYmEyNDZiYWYwMTNhMjFmMWEyMjNhZjM0ZDYwNDc5YiIsImV4cCI6MTc1MTgwODU4OH0.rzu84iqpuL2aiZcqiwVjTMoFWKaMFmjitldjiATA2JE'}`, // My pinata JWT
       },
     },
   );
 
   return res.data.IpfsHash;
 }
-
+// Registering product
 async function registerProduct() {
   const productId = document.getElementById('productId').value;
   const name = document.getElementById('productName').value;
@@ -260,7 +262,7 @@ async function registerProduct() {
     if (account) {
       const product = await contract.methods.getProductById(productId).call();
       if (product[1] !== '') {
-        alert('Product ID already exists. Please use a different ID.');
+        alert('Product ID already exists. Please insert a different ID.');
         return;
       }
       await contract.methods
@@ -273,7 +275,7 @@ async function registerProduct() {
     alert('There was an error registering the product.');
   }
 }
-
+// Verifying product
 async function verifyProduct() {
   const productId = document.getElementById('productId').value;
   const productName = document.getElementById('productName').value;
@@ -283,10 +285,10 @@ async function verifyProduct() {
     let productExists = false;
     if (productId) {
       product = await contract.methods.getProductById(productId).call();
-      productExists = product[1] !== ''; // Verifica se o nome do produto não está vazio
+      productExists = product[1] !== ''; // Checking if product's name is not empty
     } else if (productName) {
       product = await contract.methods.getProductByName(productName).call();
-      productExists = product[1] !== ''; // Verifica se o nome do produto não está vazio
+      productExists = product[1] !== ''; // Chack if product's name is not empty
     } else {
       alert('Please enter a Product ID or Product Name.');
       return;
@@ -348,7 +350,7 @@ async function verifyProduct() {
     alert('There was an error retrieving the product.');
   }
 }
-
+// Confirming verification
 async function confirmVerification() {
   const productId = document.getElementById('productId').value;
   const productName = document.getElementById('productName').value;
