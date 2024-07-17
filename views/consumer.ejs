@@ -33,11 +33,11 @@
             <a class="metamask" href="#" onclick="connectMetamask()">
               <img src="/assets/icons/icons8-metamask-48.png" alt="metamask icon">
             </a>
+            <div class="address"><span id="walletAddress"></span></div>
           </ul>
         </div>
       </div>
     </nav>
-    <div><span id="walletAddress"></span></div>
   </header>
   <main>
     <form onsubmit="verifyProduct(); return false;">
@@ -47,7 +47,7 @@
       <button type="submit">Check Product</button>
       <button type="button" onclick="confirmVerification()">Verify Product</button>
     </form>
-    <div id="productRetrieved">
+    <div class="retrieved">
       <h3 id="detailsTitle"></h3>
       <p id="productNameText"></p>
       <p id="manufacturerName"></p>
@@ -58,6 +58,12 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <footer class="footer">
+    <div class="footer-copyright">
+      <p>&copy; 2024 - Eder Pagliotto</p>
+    </div>
+  </footer>
 </body>
 
 </html>
