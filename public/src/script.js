@@ -202,7 +202,7 @@ async function connectMetamask() {
       )}`;
       document.getElementById(
         'walletAddress',
-      ).innerHTML = `Wallet Address: <strong>${compactAddress}</strong>`;
+      ).innerHTML = `<strong>Wallet Address: </strong>${compactAddress}`;
       return account;
     } catch (error) {
       console.error('User denied account access', error);
@@ -291,8 +291,9 @@ async function verifyProduct() {
       alert('Please enter a Product ID or Product Name.');
       return;
     }
-
+    const retrievedDiv = document.querySelector('.retrieved');
     if (productExists) {
+      retrievedDiv.setAttribute('id', 'productRetrieved');
       document.getElementById('detailsTitle').innerText = `Product Details`;
 
       document.getElementById(
@@ -324,7 +325,8 @@ async function verifyProduct() {
           const fileLink = document.createElement('a');
           fileLink.href = `https://gateway.pinata.cloud/ipfs/${hash}`;
           fileLink.target = '_blank';
-          fileLink.innerText = `Document ${index + 1}`;
+          fileLink.innerText = `Document #${index + 1}`;
+          fileLink.classList.add('document-link');
           fileContainer.appendChild(fileLink);
           fileContainer.appendChild(document.createElement('br'));
         });
