@@ -65,10 +65,6 @@ main {
   margin: 20px;
 }
 
-.blockchain-img {
-  max-width: 20vh;
-}
-
 form {
   margin: 20px;
   background: #ffffff;
@@ -123,7 +119,7 @@ input:focus, textarea:focus {
 }
 
 input:hover {
-  color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 textarea:hover::placeholder { 
@@ -141,7 +137,6 @@ textarea:hover::placeholder {
 .product-details-text {
   white-space: pre-wrap;
 }
-
 
 button {
   background-color: rgba(50, 124, 35, 0.8);
@@ -211,14 +206,55 @@ button:hover {
   }
 }
 
-footer {
-  border-top: 1px solid #C0C0C0;
-  margin-top: auto;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-}
-
 .btn-hover.btn-primary:hover {
   background-color: rgba(97, 213, 74, 0.8) !important;
+}
+
+.testimonials blockquote {
+  border-left: 5px solid rgba(50, 124, 35, 0.8);
+  padding-left: 15px;
+  font-style: italic;
+}
+
+.blockquote-footer {
+  padding-top: 2px;
+}
+
+.footer {
+  background-color: #6a756c;
+  opacity: 50%;
+  color: white;
+  padding: 40px 0;
+}
+
+.footer a {
+  color: white;
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: rgba(50, 124, 35, 0.8);
+}
+
+.footer h5 {
+  margin-bottom: 15px;
+}
+
+.footer .social-icons a {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+@media (max-width: 767px) {
+  .footer {
+    text-align: center;
+  }
+
+  .footer .row > div {
+    margin-bottom: 20px;
+  }
+
+  .footer .social-icons {
+    margin-top: 10px;
+  }
 }

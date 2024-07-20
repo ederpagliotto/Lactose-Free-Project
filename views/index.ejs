@@ -7,7 +7,10 @@
   <title>Lactose-Free Tracking System</title>
   <link rel="stylesheet" href="/src/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/src/script.js" defer></script>
 </head>
 
@@ -30,7 +33,7 @@
               <a class="nav-link" href="/consumer">Consumer</a>
             </li>
             <a class="metamask" href="#" onclick="connectMetamask()">
-              <img src="/assets/icons/icons8-metamask-48.png" alt="metamask icon"><!--image from incons8-->
+              <img src="/assets/icons/icons8-metamask-48.png" alt="metamask icon"><!--image from icons8-->
             </a>
             <div class="address"><span id="walletAddress"></span></div>
           </ul>
@@ -40,31 +43,33 @@
     <div><span id="walletAddress"></span></div>
   </header>
 
-  <div class="main-text">
-    <h3>Welcome to the Lactose-Free Product Tracking and Verification System</h3>
-    <p>We are a decentralized system that enables manufacturers to register lactose-free products, providing consumers with an easy way to check and verify their authenticity. This system enhances transparency and trust in lactose-free product labeling. Our platform ensures that all product information and supporting documents are stored securely and cannot be tampered with, guaranteeing a reliable source of information for both manufacturers and consumers.</p>
+  <div class="main-text py-5">
+    <div class="container">
+      <h3>Welcome to the Lactose-Free Product Tracking and Verification System</h3>
+      <p>We are a decentralized system that enables manufacturers to register lactose-free products, providing consumers with an easy way to check and verify their authenticity. This system enhances transparency and trust in lactose-free product labeling. Our platform ensures that all product information and supporting documents are stored securely and cannot be tampered with, guaranteeing a reliable source of information for both manufacturers and consumers.</p>
 
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body d-flex">
-            <img src="./assets/images/manufacturer.jpg" alt="Manufacturer" class="img-fluid me-3" style="width: 200px; height: 200px;"><!--image created by Eder Pagliotto using Microsoft Designer-->
-            <div>
-              <h5 class="card-title">Manufacturers</h5>
-              <p class="card-text">Manufacturers can use our platform to register their lactose-free products. They need to provide essential details such as the product name, manufacturer info, and specifics. This ensures accurate and trustworthy product information.</p>
-              <a href="/manufacturer" class="btn btn-primary btn-hover" style="background-color:  rgba(50, 124, 35, 0.8); border: none;">Register Products</a>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card animate__animated animate__zoomIn">
+            <div class="card-body d-flex">
+              <img src="./assets/images/manufacturer.jpg" alt="Manufacturer" class="img-fluid me-3" style="width: 200px; height: 200px;">
+              <div>
+                <h5 class="card-title">Manufacturers</h5>
+                <p class="card-text">Manufacturers can use our platform to register their lactose-free products. They need to provide essential details such as the product name, manufacturer info, and specifics. This ensures accurate and trustworthy product information.</p>
+                <a href="/manufacturer" class="btn btn-primary btn-hover" style="background-color:  rgba(50, 124, 35, 0.8); border: none;">Register Products</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body d-flex">
-            <img src="./assets/images/consumer.jpg" alt="Consumer" class="img-fluid me-3" style="width: 200px; height: 200px;"> <!--image created by Eder Pagliotto using Microsoft Designer-->
-            <div>
-              <h5 class="card-title">Consumers</h5>
-              <p class="card-text">Consumers can verify the authenticity of lactose-free products through our platform. They have access to detailed product information and can confirm its authenticity directly, ensuring confidence in their lactose-free choices.</p>
-              <a href="/consumer" class="btn btn-primary btn-hover" style="background-color:  rgba(50, 124, 35, 0.8); border: none; ">Verify Products</a>
+        <div class="col-sm-6">
+          <div class="card animate__animated animate__zoomIn">
+            <div class="card-body d-flex">
+              <img src="./assets/images/consumer.jpg" alt="Consumer" class="img-fluid me-3" style="width: 200px; height: 200px;">
+              <div>
+                <h5 class="card-title">Consumers</h5>
+                <p class="card-text">Consumers can verify the authenticity of lactose-free products through our platform. They have access to detailed product information and can confirm its authenticity directly, ensuring confidence in their lactose-free choices.</p>
+                <a href="/consumer" class="btn btn-primary btn-hover" style="background-color:  rgba(50, 124, 35, 0.8); border: none;">Verify Products</a>
+              </div>
             </div>
           </div>
         </div>
@@ -72,12 +77,87 @@
     </div>
   </div>
 
+  <section id="features" class="py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-shield-lock" style="font-size: 3rem;"></i>
+          <h4>Secure and Reliable</h4>
+          <p>All product information is securely stored and cannot be tampered with.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-person-check" style="font-size: 3rem;"></i>
+          <h4>Verified Products</h4>
+          <p>Consumers can easily verify the authenticity of lactose-free products.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-bar-chart" style="font-size: 3rem;"></i>
+          <h4>Transparency</h4>
+          <p>Provides transparency and trust in lactose-free product labeling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer class="footer">
-    <div class="footer-copyright">
-      <p>&copy; 2024 - Eder Pagliotto</p>
+  <section class="testimonials py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">What Our Users Say</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <blockquote class="blockquote">
+            <p class="mb-0">"This system has revolutionized the way we verify our lactose-free products. It's secure and easy to use!"</p>
+            <footer class="blockquote-footer">John Doe, <cite title="Source Title">ABC Dairy</cite></footer>
+          </blockquote>
+        </div>
+        <div class="col-md-4">
+          <blockquote class="blockquote">
+            <p class="mb-0">"As a consumer, I feel much more confident knowing the products I buy are genuinely lactose-free."</p>
+            <footer class="blockquote-footer">Jane Smith, <cite title="Source Title">Happy Customer</cite></footer>
+          </blockquote>
+        </div>
+        <div class="col-md-4">
+          <blockquote class="blockquote">
+            <p class="mb-0">"The transparency and trust this platform provides are unmatched."</p>
+            <footer class="blockquote-footer">Mike Johnson, <cite title="Source Title">XYZ Foods</cite></footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>About Us</h5>
+          <p>We are a decentralized system that enables manufacturers to register lactose-free products, providing consumers with an easy way to check and verify their authenticity.</p>
+        </div>
+        <div class="col-md-3">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="/" class="text-white">Home</a></li>
+            <li><a href="/manufacturer" class="text-white">Manufacturer</a></li>
+            <li><a href="/consumer" class="text-white">Consumer</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Contact Us</h5>
+          <p>Email: eder@lactosefreets.com</p>
+          <p>Phone: (123) 456-7890</p>
+          <div>
+            <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white me-2"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-3">
+      <p>&copy; 2024 - Eder Pagliotto. All rights reserved.</p>
     </div>
   </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
