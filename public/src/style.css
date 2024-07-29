@@ -265,3 +265,7 @@ button:hover {
     margin-top: 10px;
   }
 }
+
+.retrieved {
+  word-wrap: break-word;
+}

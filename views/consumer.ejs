@@ -48,13 +48,14 @@
       <input type="number" id="productId" placeholder="Product ID">
       <input type="text" id="productName" placeholder="Product Name">
       <button type="submit">Analyze Product</button>
-      <button type="button" onclick="confirmVerification()">Verify Product</button>
     </form>
-    <div class="retrieved">
-      <h3 id="detailsTitle"></h3>
+    <div class="retrieved" style="max-width: 400px;">
+      <h2 id="detailsTitle"></h2>
       <p id="productNameText"></p>
       <p id="manufacturerName"></p>
       <p id="productDetailsText" class="product-details-text"></p>
+      <p id="customerNameText"></p>
+      <p id="customerEmailText"></p>
       <p id="productVerified"></p>
       <div id="fileContainer"></div>
     </div>

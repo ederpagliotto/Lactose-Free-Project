@@ -334,6 +334,20 @@ async function verifyProduct() {
         });
       }
 
+      // Remove existing button if it exists
+      const existingButton = retrievedDiv.querySelector('button');
+      if (existingButton) {
+        retrievedDiv.removeChild(existingButton);
+      }
+
+      //Adding Verification button
+      const verifyButton = document.createElement('button');
+      verifyButton.type = 'button';
+      verifyButton.className = 'verify-button';
+      verifyButton.innerText = 'Verify Product';
+      verifyButton.onclick = confirmVerification;
+      retrievedDiv.appendChild(verifyButton);
+
       alert('Product retrieved successfully!');
     } else {
       document.getElementById('detailsTitle').innerText = '';
