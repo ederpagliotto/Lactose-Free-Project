@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lactose-Free Tracking System - Consumer</title>
+  <title>Lactose-Free Tracking System - Product List</title>
   <link rel="stylesheet" href="/src/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
@@ -42,25 +42,11 @@
       </div>
     </nav>
   </header>
-  <main>
-    <form onsubmit="verifyProduct(); return false;">
-      <h2>Search Product</h2>
-      <input type="number" id="productId" placeholder="Product ID">
-      <input type="text" id="productName" placeholder="Product Name">
-      <button type="submit">Analyze Product</button>
-    </form>
-    <div class="retrieved" style="max-width: 400px;">
-      <h2 id="detailsTitle"></h2>
-      <p id="productNameText"></p>
-      <p id="manufacturerName"></p>
-      <p id="productDetailsText" class="product-details-text"></p>
-      <p id="customerNameText"></p>
-      <p id="customerEmailText"></p>
-      <p id="productVerified"></p>
-      <div id="fileContainer"></div>
-    </div>
-    <div class="products-list-content">
-      <p>You can see a list of all registered products by clicking <a href="/products">here!</a></p>
+  <main class="products-content">
+    <h2>Complete List of Lactose-Free Products</h2>
+    <p>Discover all the lactose-free products registered in our system. Our products can be verified to ensure the highest quality and trust. Click the button below to access the full list and find what you’re looking for</p>
+    <div class="list">
+      <button class="list-button">Show Products</button>
     </div>
   </main>
 

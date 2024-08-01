@@ -20,6 +20,10 @@ app.get('/consumer', (req, res) => {
   res.render('consumer');
 });
 
+app.get('/products', (req, res) => {
+  res.render('products');
+});
+
 app.listen(port, () => {
   console.log(`Server running: http://localhost:${port}`);
 });

@@ -236,7 +236,7 @@ async function uploadToIPFS(file) {
       maxBodyLength: 'Infinity',
       headers: {
         'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4ODJiMWU4Ni04YTcyLTRkODAtYTBiZi05NzQxM2FmODVlN2MiLCJlbWFpbCI6ImVkZXJwYWdsaW90dG9AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjdhYTk4MWE5YTI0NzUzY2JmMDJiIiwic2NvcGVkS2V5U2VjcmV0IjoiYWViZDdkOWQ3OTFjMzk0YjNkM2NiODVhNDQ0OGU3NDIwYmEyNDZiYWYwMTNhMjFmMWEyMjNhZjM0ZDYwNDc5YiIsImV4cCI6MTc1MTgwODU4OH0.rzu84iqpuL2aiZcqiwVjTMoFWKaMFmjitldjiATA2JE'}`, // My pinata JWT
+        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4ODJiMWU4Ni04YTcyLTRkODAtYTBiZi05NzQxM2FmODVlN2MiLCJlbWFpbCI6ImVkZXJwYWdsaW90dG9AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjdhYTk4MWE5YTI0NzUzY2JmMDJiIiwic2NvcGVkS2V5U2VjcmV0IjoiYWViZDdkOWQ3OTFjMzk0YjNkM2NiODVhNDQ0OGU3NDIwYmEyNDZiYWYwMTNhMjFmMWEyMjNhZjM0ZDYwNDc5YiIsImV4cCI6MTc1MTgwODU4OH0.rzu84iqpuL2aiZcqiwVjTMoFWKaMFmjitldjiATA2JE'}`, //  my pinata JWT
       },
     },
   );
@@ -285,10 +285,10 @@ async function verifyProduct() {
     let productExists = false;
     if (productId) {
       product = await contract.methods.getProductById(productId).call();
-      productExists = product[1] !== ''; // Checking if product's name is not empty
+      productExists = product[1] !== ''; // checking if product's name is not empty
     } else if (productName) {
       product = await contract.methods.getProductByName(productName).call();
-      productExists = product[1] !== ''; // Chack if product's name is not empty
+      productExists = product[1] !== ''; // checking if product's name is not empty
     } else {
       alert('Please enter a Product ID or Product Name.');
       return;
@@ -334,13 +334,13 @@ async function verifyProduct() {
         });
       }
 
-      // Remove existing button if it exists
+      // remove existing button if it exists
       const existingButton = retrievedDiv.querySelector('button');
       if (existingButton) {
         retrievedDiv.removeChild(existingButton);
       }
 
-      //Adding Verification button
+      // add Verification button
       const verifyButton = document.createElement('button');
       verifyButton.type = 'button';
       verifyButton.className = 'verify-button';
@@ -389,7 +389,7 @@ async function confirmVerification() {
 
       if (productExists) {
         if (product[5]) {
-          // Check if the product is already verified
+          // Checking if the product is verified
           alert(
             'Product is already verified. Cannot change verification status.',
           );
@@ -416,3 +416,149 @@ async function confirmVerification() {
     alert('There was an error verifying the product.');
   }
 }
+
+let displayedCount = 0; // Contador para os produtos exibidos
+let currentStartIndex = 0; // Índice inicial para os produtos exibidos
+const productsPerPage = 5; // Número de produtos exibidos por vez
+let products = []; // Lista de produtos obtidos do contrato
+
+async function fetchProducts() {
+  const productCount = await contract.methods.productCount().call();
+  products = [];
+
+  for (let i = 1; i <= productCount; i++) {
+    const product = await contract.methods.products(i).call();
+    products.push({
+      id: product.id,
+      name: product.name,
+      manufacturer: product.manufacturer,
+    });
+  }
+}
+
+function renderProducts(start, end) {
+  const productList = document.querySelector('.product-list');
+  productList.innerHTML = '<h2>Registered Products</h2>';
+
+  for (let i = start; i < end && i < products.length; i++) {
+    const product = products[i];
+    const productItem = document.createElement('ul');
+    productItem.classList.add('product-item');
+    productItem.innerHTML = `
+      <li><strong>ID:</strong> ${product.id}</li>
+      <li><strong>Name:</strong> ${product.name}</li>
+      <li><strong>Manufacturer:</strong> ${product.manufacturer}</li>
+      <hr>
+    `;
+    productList.appendChild(productItem);
+  }
+}
+
+function updateButtons() {
+  const showMoreButton = document.querySelector('.show-more-button');
+  const showLessButton = document.querySelector('.show-less-button');
+  const showAllButton = document.querySelector('.show-all-button');
+  const showFirstButton = document.querySelector('.show-first-button');
+  const showLastButton = document.querySelector('.show-last-button');
+
+  showMoreButton.style.display =
+    currentStartIndex + productsPerPage < products.length
+      ? 'inline-block'
+      : 'none';
+  showLessButton.style.display =
+    currentStartIndex > 0 ? 'inline-block' : 'none';
+  showAllButton.style.display =
+    products.length > productsPerPage ? 'inline-block' : 'none';
+  showFirstButton.style.display =
+    currentStartIndex > 0 ? 'inline-block' : 'none';
+  showLastButton.style.display =
+    currentStartIndex + productsPerPage < products.length
+      ? 'inline-block'
+      : 'none';
+}
+
+async function displayProductsList() {
+  try {
+    await fetchProducts();
+    const productList = document.createElement('div');
+    productList.classList.add('product-list');
+
+    const listContainer = document.querySelector('.list');
+    listContainer.innerHTML = '';
+    listContainer.appendChild(productList);
+
+    // rendering initial products
+    renderProducts(0, Math.min(productsPerPage, products.length));
+    currentStartIndex = 0;
+
+    // Creating and updatings navigation buttons
+    const showMoreButton = document.createElement('button');
+    showMoreButton.classList.add('show-more-button');
+    showMoreButton.textContent = 'Show More Products';
+    showMoreButton.onclick = () => {
+      currentStartIndex += productsPerPage;
+      renderProducts(
+        currentStartIndex,
+        Math.min(currentStartIndex + productsPerPage, products.length),
+      );
+      updateButtons();
+    };
+    listContainer.appendChild(showMoreButton);
+
+    const showLessButton = document.createElement('button');
+    showLessButton.classList.add('show-less-button');
+    showLessButton.textContent = 'Show Previous Products';
+    showLessButton.onclick = () => {
+      currentStartIndex = Math.max(0, currentStartIndex - productsPerPage);
+      renderProducts(
+        currentStartIndex,
+        Math.min(currentStartIndex + productsPerPage, products.length),
+      );
+      updateButtons();
+    };
+    listContainer.appendChild(showLessButton);
+
+    const showAllButton = document.createElement('button');
+    showAllButton.classList.add('show-all-button');
+    showAllButton.textContent = 'Show All Products';
+    showAllButton.onclick = () => {
+      renderProducts(0, products.length);
+      currentStartIndex = 0;
+      updateButtons();
+    };
+    listContainer.appendChild(showAllButton);
+
+    const showFirstButton = document.createElement('button');
+    showFirstButton.classList.add('show-first-button');
+    showFirstButton.textContent = 'Show First Products';
+    showFirstButton.onclick = () => {
+      currentStartIndex = 0;
+      renderProducts(
+        currentStartIndex,
+        Math.min(currentStartIndex + productsPerPage, products.length),
+      );
+      updateButtons();
+    };
+    listContainer.appendChild(showFirstButton);
+
+    const showLastButton = document.createElement('button');
+    showLastButton.classList.add('show-last-button');
+    showLastButton.textContent = 'Show Last Products';
+    showLastButton.onclick = () => {
+      currentStartIndex = Math.max(0, products.length - productsPerPage);
+      renderProducts(currentStartIndex, products.length);
+      updateButtons();
+    };
+    listContainer.appendChild(showLastButton);
+
+    // button visibility
+    updateButtons();
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+}
+
+// Adding event listener to button
+document
+  .querySelector('.list-button')
+  .addEventListener('click', displayProductsList);

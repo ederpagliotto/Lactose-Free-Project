@@ -223,6 +223,60 @@ button:hover {
   font-style: italic;
 }
 
+.retrieved {
+  word-wrap: break-word;
+}
+
+.products-content {
+  margin-top: 20px;
+}
+
+.list {
+  max-width: 400px;
+  margin-bottom: 30px;
+}
+
+.list button {
+  margin: 2px;
+}
+
+.product-list {
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  border: none;
+}
+
+.product-list h2 {
+  margin-bottom: 20px;
+}
+
+.product-item {
+  list-style: none;
+  word-wrap: break-word;
+}
+
+.product-item:last-child {
+  border-bottom: none;
+  margin-bottom: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+.list-button {
+  background-color: rgba(97, 23, 950);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+ }
+
+.list-button:hover {
+  background-color: #5e9693;
+}
+
 .blockquote-footer {
   padding-top: 4px;
 }
@@ -266,6 +320,3 @@ button:hover {
   }
 }
 
-.retrieved {
-  word-wrap: break-word;
-}
