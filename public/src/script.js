@@ -1,5 +1,5 @@
 const web3 = new Web3(Web3.givenProvider || 'http://localhost:8545');
-const contractAddress = '0xcd8670735738135175670db95baeaa99f2859e30';
+const contractAddress = '0x5222e00bac15f98c85a37f713538d06a07946592';
 const contractABI = [
   {
     inputs: [
